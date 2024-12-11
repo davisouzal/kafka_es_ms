@@ -147,7 +147,21 @@ describe("catalogService", () => {
 
       expect(result).toMatchObject(product);
     });
-    // Make test for the case of not finding the product
+
+    test("should throw an error with product does not exist", async () => {
+      const service = new CatalogService(repository);
+      const product = productFactory.build();
+
+      jest
+        .spyOn(repository, "findOne")
+        .mockImplementationOnce(() =>
+          Promise.reject(new Error("product does not exist"))
+        );
+
+      await expect(service.getProduct(product.id!)).rejects.toThrow(
+        "product does not exist"
+      );
+    });
   });
 
   describe("deleteProduct", () => {
@@ -163,6 +177,17 @@ describe("catalogService", () => {
         id: product.id,
       });
     });
-    // Make test for the case of not finding the product
+
+    test("should throw an error with product does not exist", async () => {
+      const service = new CatalogService(repository);
+      const product = productFactory.build();
+
+      jest
+        .spyOn(repository, "delete")
+        .mockImplementationOnce(() => Promise.reject(new Error("product does not exist")));
+
+      await expect(service.deleteProduct(product.id!)).rejects.toThrow("product does not exist");
+    });
   });
 });
+
