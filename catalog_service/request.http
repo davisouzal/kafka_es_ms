@@ -1,6 +1,9 @@
-POST http://localhost:3001/product
+POST http://localhost:3001/products
 Content-Type: application/json
 
 {
-    "name": "product name"
+    "name": "Iphone 15",
+    "price": 5000,
+    "stock": 10,
+    "description": "Iphone 15 released in 2024"
 }
